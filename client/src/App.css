@@ -22,6 +22,15 @@
   font-size: large;
 }
 
+.textbox{
+  height: 50em;
+  width: 25em;
+}
+form {
+  display:flex;
+  justify-content: center;
+  align-self: flex-end;
+}
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

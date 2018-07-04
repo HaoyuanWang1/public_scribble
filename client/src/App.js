@@ -6,11 +6,14 @@ class App extends Component {
   constructor() {
         super()
         this.state = {
-            response: ''
+            value: ''
         }
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+
  }
  componentDidMount(){
-  this.callApi().then(res=>this.setState({response:res.data})).catch(err=>console.log(err));
+  this.callApi().then(res=>this.setState({value:res.data})).catch(err=>console.log(err));
  }
 
  callApi= async()=>{
@@ -20,6 +23,24 @@ class App extends Component {
     console.log(res_data);
     return res_data;
  }
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    alert('An essay was submitted: ' + this.state.value);
+    fetch('/api/post', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        data: this.state.value,
+      }),
+    });
+    event.preventDefault();
+  }
   render() {
     return (
       <div className="App">
@@ -31,6 +52,13 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
         <p className="App-header">{this.state.response}</p>
+        <form onSubmit={this.handleSubmit}>
+        <label>
+          Stuff:
+        </label>
+        <textarea className="textbox" value={this.state.value} onChange={this.handleChange} />
+        <input type="submit" value="Submit" />
+      </form>
       </div>
     );
   }
